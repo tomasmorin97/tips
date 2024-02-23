@@ -1,0 +1,28 @@
+# Crear distintos subplots para el EDA
+
+fig, axs = plt.subplots(ncols = 4,
+                       nrows = 1,
+                       figsize= (11,3))
+axs[0].boxplot(df_diamonds['table'])
+axs[0].set(title='Table')
+axs[1].boxplot(df_diamonds['depth'])
+axs[1].set(title='Depth')
+axs[2].boxplot(df_diamonds['price'])
+axs[2].set(title='Price')
+axs[3].boxplot(df_diamonds['carat'])
+axs[3].set(title='Carat')
+
+
+# Leer distintos datasets
+
+# Import datasets
+content = os.listdir('../data/raw_data/')
+
+# With this function I can extract all of datasets in diferent dataframes. In order to understand each dataframe, I will 
+# print the name, columns name and shape of each dataframe.
+for name_file in content:
+    name_df = name_file.split('.')[0] + '_df'
+    exec(f'{name_df} = pd.read_csv(f"../data/raw_data/{name_file}", sep=",")')
+    exec(f'columns_name = {name_df}.columns.values')
+    exec(f'shape = {name_df}.shape')
+    print(name_df,'| columns names: ', columns_name, '| df shape: ', shape)
