@@ -26,3 +26,30 @@ for name_file in content:
     exec(f'columns_name = {name_df}.columns.values')
     exec(f'shape = {name_df}.shape')
     print(name_df,'| columns names: ', columns_name, '| df shape: ', shape)
+
+
+# EDA esencial pair plot
+sns.pairplot(df_diamonds)
+plt.show()
+
+def cat_var(df, cols):
+    '''
+    Return: a Pandas dataframe object with the following columns:
+        - "categorical_variable" => every categorical variable include as an input parameter (string).
+        - "number_of_possible_values" => the amount of unique values that can take a given categorical variable (integer).
+        - "values" => a list with the posible unique values for every categorical variable (list).
+
+    Input parameters:
+        - df -> Pandas dataframe object: a dataframe with categorical variables.
+        - cols -> list object: a list with the name (string) of every categorical variable to analyse.
+    '''
+    cat_list = []
+    for col in cols:
+        cat = df[col].unique()
+        cat_num = len(cat)
+        cat_dict = {"categorical_variable":col,
+                    "number_of_possible_values":cat_num,
+                    "values":cat}
+        cat_list.append(cat_dict)
+    df = pd.DataFrame(cat_list).sort_values(by="number_of_possible_values", ascending=False)
+    return df.reset_index(drop=True)
